@@ -1,0 +1,10 @@
+D:\MVCAppTask\MVCAppTask\DataAccess\bin\Debug\DataAccess.dll.config
+D:\MVCAppTask\MVCAppTask\DataAccess\bin\Debug\DataAccess.dll
+D:\MVCAppTask\MVCAppTask\DataAccess\bin\Debug\DataAccess.pdb
+D:\MVCAppTask\MVCAppTask\DataAccess\bin\Debug\EntityFramework.dll
+D:\MVCAppTask\MVCAppTask\DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+D:\MVCAppTask\MVCAppTask\DataAccess\bin\Debug\EntityFramework.xml
+D:\MVCAppTask\MVCAppTask\DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+D:\MVCAppTask\MVCAppTask\DataAccess\obj\Debug\DataAccess.dll
+D:\MVCAppTask\MVCAppTask\DataAccess\obj\Debug\DataAccess.pdb
+D:\MVCAppTask\MVCAppTask\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache

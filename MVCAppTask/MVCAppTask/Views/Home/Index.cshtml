@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Scripts/AngularJS/main.js"></script>
+</head>
+<body>
+    <div class="mainContentHolder" ng-app="SPAApp" ng-controller="LPController" ng-init="loadData('Redirect')">
+        <div ng-switch on="working">
+            <div ng-switch-when="default" style="margin: 0 auto;">
+                <p style="font-size: 36px; color: lightgrey;">{{ message }}</p>
+            </div>
+            <div ng-switch-when="main">
+                <div style="margin: 0 0 10px 0;">
+                    <label>
+                        Search: <input ng-model="search">
+                    </label>
+                    <button style="float: right;" ng-click="addData()">Add New</button>
+                </div>
+                <div>
+                    <table>
+                        <tr>
+                            <td>UPI</td>
+                            <td>Area</td>
+                            <td>Land Image</td>
+                            <td>Owner F. Name</td>
+                            <td>Owner L. Name</td>
+                            <td>Owner Address</td>
+                            <td>Owner UserID</td>
+                            <td>Owner Image</td>
+                            <td>Mortgages</td>
+                            <td>Actions</td>
+                        </tr>
+                        <tr ng-repeat="prop in landProperties | filter:search:strict">
+                            <td>{{ prop.UPI }}</td>
+                            <td>{{ prop.Area }}</td>
+                            <td><img height="40" width="40" ng-show="prop.Image" ng-src="data:image/png;base64,{{ prop.Image }}" /></td>
+                            <td>{{ prop.Owner.FirstName }}</td>
+                            <td>{{ prop.Owner.LastName }}</td>
+                            <td>{{ prop.Owner.Address }}</td>
+                            <td>{{ prop.Owner.UserID }}</td>
+                            <td> <img height="40" width="40" ng-src="data:image/gif;base64,{{prop.Owner.Image}}" /></td>
+                            <td>
+                                <ol ng-repeat="m in prop.Mortgages">
+                                    <li>
+                                        <p><b>Date: </b> {{ m.Date | date: 'yyyy-MM-dd'}}</p>
+                                        <p><b>MoneyRecieved: </b> {{ m.MoneyRecieved | currency}}</p>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td>
+                                <button class="genericButton" ng-click="editData(prop)">Edit</button>
+                                <button class="genericButton" ng-click="deleteLandProp(prop)">Delete</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div ng-switch-when="addNEdit">
+                <h2>Edit Panel</h2>
+                <div style="width: 50%; height: 400px; float: left;">
+                    <form name="addEditForm">
+
+                        <label>
+                            UPI: <input type="text" name="upi" ng-model="changeData.UPI" required>
+                            <span style="color:red" ng-show="addEditForm.upi.$dirty && addEditForm.upi.$invalid">
+                                <span ng-show="addEditForm.upi.$error.required">UPI is required.</span>
+                            </span>
+                        </label>
+                        <br>
+
+                        <label>
+                            Area: <input type="text" name="area" ng-model="changeData.Area" required>
+                            <span style="color:red" ng-show="addEditForm.area.$dirty && addEditForm.area.$invalid">
+                                <span ng-show="addEditForm.area.$error.required">Area is required.</span>
+                            </span>
+                        </label>
+                        <br>
+
+                        <div>
+                            <label>Land Image: <input id="inpLandImage" type="file" ng-model="changeData.Image"></label>
+                            <label>Current: <img id="imgLandImage" height="25" width="25" ng-src="data:image/png;base64,{{ changeData.Image }}" /></label>
+                        </div>
+                        <br>
+
+                        <label>
+                            Owner First Name: <input type="text" name="firstname" ng-model="changeData.Owner.FirstName" required>
+                            <span style="color:red" ng-show="addEditForm.firstname.$dirty && addEditForm.firstname.$invalid">
+                                <span ng-show="addEditForm.firstname.$error.required">FirstName is required.</span>
+                            </span>
+                        </label>
+                        <br>
+
+                        <label>
+                            Owner Last Name: <input type="text" name="lastname" ng-model="changeData.Owner.LastName" required>
+                            <span style="color:red" ng-show="addEditForm.lastname.$dirty && addEditForm.lastname.$invalid">
+                                <span ng-show="addEditForm.lastname.$error.required">LastName is required.</span>
+                            </span>
+                        </label>
+                        <br>
+
+                        <label>
+                            Owner Address: <input type="text" name="address" ng-model="changeData.Owner.Address" required>
+                            <span style="color:red" ng-show="addEditForm.address.$dirty && addEditForm.address.$invalid">
+                                <span ng-show="addEditForm.address.$error.required">Address is required.</span>
+                            </span>
+                        </label>
+                        <br>
+
+                        <label>
+                            Owner UserID: <input type="text" name="userid" ng-model="changeData.Owner.UserID" required>
+                            <span style="color:red" ng-show="addEditForm.userid.$dirty && addEditForm.userid.$invalid">
+                                <span ng-show="addEditForm.userid.$error.required">UserID is required.</span>
+                            </span>
+                        </label>
+                        <br>
+
+                        <div>
+                            <label>Owner Image: <input id="inpOwnerImage" type="file" ng-model="changeData.Owner.Image"></label>
+                            <label>Current: <img id="imgOwnerImage" height="25" width="25" ng-src="data:image/png;base64,{{ changeData.Owner.Image }}" /></label>
+                        </div>
+                        <br><br>
+
+                        <button ng-click="saveLandProp(changeData)"
+                                ng-disabled="addEditForm.$pristine || addEditForm.upi.$invalid || addEditForm.area.$invalid ||
+                                            addEditForm.firstname.$invalid || addEditForm.lastname.$invalid ||
+                                            addEditForm.address.$invalid || addEditForm.userid.$invalid">
+                            Save
+                        </button>
+                        <button ng-click="reset()">Cancel</button>
+                    </form>
+                </div>
+                <div style="width: 50%; height: 400px; float: left;">
+                    <div ng-show="changeData.Mortgages">
+                        <p>{{ mortMessage }}</p>
+                        <br />
+
+                        <div>
+                            <h3>New</h3>
+                            <label>Date: <input style="width: 100px; margin: 0 0 0 10px;" type="text" ng-model="EditData"></label>
+                            <label>MoneyRecieved: <input style="width: 100px;" type="text" ng-model="EditMoney"></label>
+                            <button ng-click="addMortgage(changeData.Id, EditData, EditMoney)">Save</button>
+                        </div>
+
+                        <table style="width: 420px;">
+                            <tr>
+                                <td>Date</td>
+                                <td>Money</td>
+                                <td>Action</td>
+                            </tr>
+                            <tr ng-repeat="m in changeData.Mortgages">
+                                <td style="font-size: 12px;"><label>Date: <input type="text" ng-model="m.Date"></label></td>
+                                <td style="font-size: 12px;"><label>MoneyRecieved: <input type="text" ng-model="m.MoneyRecieved"></label></td>
+                                <td>
+                                    <button class="genericButton" ng-click="saveMortgage(m)">Save</button>
+                                    <button class="genericButton" ng-click="deleteMortgage(m)">Delete</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+

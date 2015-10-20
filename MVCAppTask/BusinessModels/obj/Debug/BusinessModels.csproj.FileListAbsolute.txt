@@ -1,0 +1,9 @@
+D:\MVCAppTask\MVCAppTask\BusinessModels\bin\Debug\BusinessModels.dll
+D:\MVCAppTask\MVCAppTask\BusinessModels\bin\Debug\BusinessModels.pdb
+D:\MVCAppTask\MVCAppTask\BusinessModels\bin\Debug\DataAccess.dll
+D:\MVCAppTask\MVCAppTask\BusinessModels\bin\Debug\EntityFramework.dll
+D:\MVCAppTask\MVCAppTask\BusinessModels\bin\Debug\DataAccess.pdb
+D:\MVCAppTask\MVCAppTask\BusinessModels\bin\Debug\EntityFramework.xml
+D:\MVCAppTask\MVCAppTask\BusinessModels\obj\Debug\BusinessModels.csprojResolveAssemblyReference.cache
+D:\MVCAppTask\MVCAppTask\BusinessModels\obj\Debug\BusinessModels.dll
+D:\MVCAppTask\MVCAppTask\BusinessModels\obj\Debug\BusinessModels.pdb

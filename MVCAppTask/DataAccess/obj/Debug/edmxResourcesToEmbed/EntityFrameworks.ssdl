@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MunicipalityDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="LandProperties">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Owners" Type="int" Nullable="false" />
+    <Property Name="Area" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UPI" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Image" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Mortgages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LandPropertiyID" Type="int" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="MoneyRecieved" Type="money" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Owners">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserID" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Image" Type="nvarchar(max)" />
+  </EntityType>
+  <Association Name="FKLtO">
+    <End Role="Owners" Type="Self.Owners" Multiplicity="1" />
+    <End Role="LandProperties" Type="Self.LandProperties" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Owners">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LandProperties">
+        <PropertyRef Name="Owners" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FKMtL">
+    <End Role="LandProperties" Type="Self.LandProperties" Multiplicity="1" />
+    <End Role="Mortgages" Type="Self.Mortgages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LandProperties">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Mortgages">
+        <PropertyRef Name="LandPropertiyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MunicipalityDBModelStoreContainer">
+    <EntitySet Name="LandProperties" EntityType="Self.LandProperties" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Mortgages" EntityType="Self.Mortgages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Owners" EntityType="Self.Owners" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FKLtO" Association="Self.FKLtO">
+      <End Role="Owners" EntitySet="Owners" />
+      <End Role="LandProperties" EntitySet="LandProperties" />
+    </AssociationSet>
+    <AssociationSet Name="FKMtL" Association="Self.FKMtL">
+      <End Role="LandProperties" EntitySet="LandProperties" />
+      <End Role="Mortgages" EntitySet="Mortgages" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

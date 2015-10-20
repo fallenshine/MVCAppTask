@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MunicipalityDBModelStoreContainer" CdmEntityContainer="MunicipalityDBEntities">
+    <EntitySetMapping Name="LandProperties">
+      <EntityTypeMapping TypeName="MunicipalityDBModel.LandProperty">
+        <MappingFragment StoreEntitySet="LandProperties">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Owners" ColumnName="Owners" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="UPI" ColumnName="UPI" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Mortgages">
+      <EntityTypeMapping TypeName="MunicipalityDBModel.Mortgage">
+        <MappingFragment StoreEntitySet="Mortgages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="LandPropertiyID" ColumnName="LandPropertiyID" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="MoneyRecieved" ColumnName="MoneyRecieved" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Owners">
+      <EntityTypeMapping TypeName="MunicipalityDBModel.Owner">
+        <MappingFragment StoreEntitySet="Owners">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

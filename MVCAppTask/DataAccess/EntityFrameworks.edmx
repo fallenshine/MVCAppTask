@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MunicipalityDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LandProperties">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Owners" Type="int" Nullable="false" />
+          <Property Name="Area" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UPI" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Image" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Mortgages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LandPropertiyID" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="MoneyRecieved" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Owners">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Image" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FKLtO">
+          <End Role="Owners" Type="Self.Owners" Multiplicity="1" />
+          <End Role="LandProperties" Type="Self.LandProperties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Owners">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LandProperties">
+              <PropertyRef Name="Owners" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKMtL">
+          <End Role="LandProperties" Type="Self.LandProperties" Multiplicity="1" />
+          <End Role="Mortgages" Type="Self.Mortgages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandProperties">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mortgages">
+              <PropertyRef Name="LandPropertiyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MunicipalityDBModelStoreContainer">
+          <EntitySet Name="LandProperties" EntityType="Self.LandProperties" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mortgages" EntityType="Self.Mortgages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Owners" EntityType="Self.Owners" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FKLtO" Association="Self.FKLtO">
+            <End Role="Owners" EntitySet="Owners" />
+            <End Role="LandProperties" EntitySet="LandProperties" />
+          </AssociationSet>
+          <AssociationSet Name="FKMtL" Association="Self.FKMtL">
+            <End Role="LandProperties" EntitySet="LandProperties" />
+            <End Role="Mortgages" EntitySet="Mortgages" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MunicipalityDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="LandProperty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Owners" Type="Int32" Nullable="false" />
+          <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UPI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Owner" Relationship="Self.FKLtO" FromRole="LandProperties" ToRole="Owners" />
+          <NavigationProperty Name="Mortgages" Relationship="Self.FKMtL" FromRole="LandProperties" ToRole="Mortgages" />
+        </EntityType>
+        <EntityType Name="Mortgage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="LandPropertiyID" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MoneyRecieved" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="LandProperty" Relationship="Self.FKMtL" FromRole="Mortgages" ToRole="LandProperties" />
+        </EntityType>
+        <EntityType Name="Owner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LandProperties" Relationship="Self.FKLtO" FromRole="Owners" ToRole="LandProperties" />
+        </EntityType>
+        <Association Name="FKLtO">
+          <End Role="Owners" Type="Self.Owner" Multiplicity="1" />
+          <End Role="LandProperties" Type="Self.LandProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Owners">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LandProperties">
+              <PropertyRef Name="Owners" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKMtL">
+          <End Role="LandProperties" Type="Self.LandProperty" Multiplicity="1" />
+          <End Role="Mortgages" Type="Self.Mortgage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandProperties">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mortgages">
+              <PropertyRef Name="LandPropertiyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MunicipalityDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LandProperties" EntityType="Self.LandProperty" />
+          <EntitySet Name="Mortgages" EntityType="Self.Mortgage" />
+          <EntitySet Name="Owners" EntityType="Self.Owner" />
+          <AssociationSet Name="FKLtO" Association="Self.FKLtO">
+            <End Role="Owners" EntitySet="Owners" />
+            <End Role="LandProperties" EntitySet="LandProperties" />
+          </AssociationSet>
+          <AssociationSet Name="FKMtL" Association="Self.FKMtL">
+            <End Role="LandProperties" EntitySet="LandProperties" />
+            <End Role="Mortgages" EntitySet="Mortgages" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MunicipalityDBModelStoreContainer" CdmEntityContainer="MunicipalityDBEntities">
+          <EntitySetMapping Name="LandProperties">
+            <EntityTypeMapping TypeName="MunicipalityDBModel.LandProperty">
+              <MappingFragment StoreEntitySet="LandProperties">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Owners" ColumnName="Owners" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="UPI" ColumnName="UPI" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mortgages">
+            <EntityTypeMapping TypeName="MunicipalityDBModel.Mortgage">
+              <MappingFragment StoreEntitySet="Mortgages">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LandPropertiyID" ColumnName="LandPropertiyID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="MoneyRecieved" ColumnName="MoneyRecieved" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Owners">
+            <EntityTypeMapping TypeName="MunicipalityDBModel.Owner">
+              <MappingFragment StoreEntitySet="Owners">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
